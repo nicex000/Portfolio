@@ -1,0 +1,1 @@
+The State Manager, the base class for the state, and the implementation with an example state

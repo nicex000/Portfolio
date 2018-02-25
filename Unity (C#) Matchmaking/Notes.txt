@@ -1,0 +1,3 @@
+The file was shared between me and another programmer (which linked it with UI for the quick match). 
+The file contains the steps for a manual matchmaking (create a lobby/join a lobby with name and password), 
+and also an automated matchmaking, aka QuickMatch (tries to join available lobbies, otherwise tries to create one).

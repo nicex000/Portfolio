@@ -1,0 +1,8 @@
+The Body file has most of the classes that are used to store the physics data for the objects.
+
+The 2 collision phases are first broad, and if it passes the broad then it does the narrow.
+The Contacts file is the resolution of the collision, by using interpenetration and velocity.
+
+The ForceGen file is the resolution of gravity and drag coefficients.
+
+There are other files like the Physics controller which ticks the updates, and the Object_Physics which is just a component to attach to the GameObject (linking it to the custom physics).

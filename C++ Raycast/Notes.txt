@@ -1,0 +1,4 @@
+First of all, the MouseRay file will project the mouse screen position to world position.
+
+The Raycast happens when the LMB is clicked, that can be found at line 286 (void BattleShips::MouseLeftClick(int i)) of the BattleShips file.
+The raycast needs to be done through a ray plane intercetion. the calculations of which is done in the Intercect function of the Plane file.
