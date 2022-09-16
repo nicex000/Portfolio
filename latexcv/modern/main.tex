@@ -1,0 +1,674 @@
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+%	The MIT License (MIT)
+%
+%	Copyright (c) 2022 Martin Nicholas Lagas
+%
+%	Permission is hereby granted, free of charge, to any person obtaining a copy
+%	of this software and associated documentation files (the "Software"), to deal
+%	in the Software without restriction, including without limitation the rights
+%	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%	copies of the Software, and to permit persons to whom the Software is
+%	furnished to do so, subject to the following conditions:
+%	
+%	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+%	THE SOFTWARE.
+%	
+%
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+
+
+%============================================================================%
+%
+%	DOCUMENT DEFINITION
+%
+%============================================================================%
+
+%we use article class because we want to fully customize the page and dont use a cv template
+\documentclass[10pt,A4]{article}	
+
+
+%----------------------------------------------------------------------------------------
+%	ENCODING
+%----------------------------------------------------------------------------------------
+
+%we use utf8 since we want to build from any machine
+\usepackage[utf8]{inputenc}		
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+%----------------------------------------------------------------------------------------
+%	LOGIC
+%----------------------------------------------------------------------------------------
+
+% provides \isempty test
+\usepackage{xifthen}
+
+%----------------------------------------------------------------------------------------
+%	FONT
+%----------------------------------------------------------------------------------------
+
+% some tex-live fonts - choose your own
+
+%\usepackage[defaultsans]{droidsans}
+%\usepackage[default]{comfortaa}
+%\usepackage{cmbright}
+\usepackage[default]{raleway}
+%\usepackage{fetamont}
+%\usepackage[default]{gillius}
+%\usepackage[light,math]{iwona}
+%\usepackage[thin]{roboto} 
+
+% set font default
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+% more font size definitions
+\usepackage{moresize}		
+
+
+%----------------------------------------------------------------------------------------
+%	PAGE LAYOUT  DEFINITIONS
+%----------------------------------------------------------------------------------------
+
+%debug page outer frames
+%\usepackage{showframe}			
+
+
+%define page styles using geometry
+\usepackage[a4paper]{geometry}		
+
+% for example, change the margins to 2 inches all round
+\geometry{top=1.75cm, bottom=-.6cm, left=1.5cm, right=1.5cm} 	
+
+%use customized header
+\usepackage{fancyhdr}				
+\pagestyle{fancy}
+
+%less space between header and content
+\setlength{\headheight}{-5pt}		
+
+
+%customize entries left, center and right
+\lhead{}
+\chead{ \small{Martin Nicholas Lagas $\cdot$ Gamedev Programmer $\cdot$  Santa Maria di Sala (VE), Italy  $\cdot$  \textcolor{sectcol}{\textbf{nicex000@yahoo.com}}  $\cdot$ +39 324 0905607}}
+\rhead{}
+
+%indentation is zero
+\setlength{\parindent}{0mm}
+
+%----------------------------------------------------------------------------------------
+%	TABLE /ARRAY DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%for layouting tables
+\usepackage{multicol}			
+\usepackage{multirow}
+
+%extended aligning of tabular cells
+\usepackage{array}
+
+\newcolumntype{x}[1]{%
+>{\raggedleft\hspace{0pt}}p{#1}}%
+
+
+%----------------------------------------------------------------------------------------
+%	GRAPHICS DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%for header image
+\usepackage{graphicx}
+
+%for floating figures
+\usepackage{wrapfig}
+\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
+
+%for drawing graphics		
+\usepackage{tikz}				
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+
+%----------------------------------------------------------------------------------------
+%	Color DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+\usepackage{color}
+
+%accent color
+\definecolor{sectcol}{RGB}{255,150,0}
+
+%dark background color
+\definecolor{bgcol}{RGB}{110,110,110}
+
+%light background / accent color
+\definecolor{softcol}{RGB}{225,225,225}
+
+
+%============================================================================%
+%
+%
+%	DEFINITIONS
+%
+%
+%============================================================================%
+
+%----------------------------------------------------------------------------------------
+% 	HEADER
+%----------------------------------------------------------------------------------------
+
+% remove top header line
+\renewcommand{\headrulewidth}{0pt} 
+
+%remove botttom header line
+\renewcommand{\footrulewidth}{0pt}	  	
+
+%remove pagenum
+\renewcommand{\thepage}{}	
+
+%remove section num		
+\renewcommand{\thesection}{}			
+
+%----------------------------------------------------------------------------------------
+% 	ARROW GRAPHICS in Tikz
+%----------------------------------------------------------------------------------------
+
+% a six pointed arrow poiting to the left
+\newcommand{\tzlarrow}{(0,0) -- (0.2,0) -- (0.3,0.2) -- (0.2,0.4) -- (0,0.4) -- (0.1,0.2) -- cycle;}	
+
+% include the left arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\larrow}[1]
+{\begin{tikzpicture}[scale=0.58]
+	 \filldraw[fill=#1!100,draw=#1!100!black]  \tzlarrow
+ \end{tikzpicture}
+}
+
+% a six pointed arrow poiting to the right
+\newcommand{\tzrarrow}{ (0,0.2) -- (0.1,0) -- (0.3,0) -- (0.2,0.2) -- (0.3,0.4) -- (0.1,0.4) -- cycle;}
+
+% include the right arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\rarrow}
+{\begin{tikzpicture}[scale=0.7]
+	\filldraw[fill=sectcol!100,draw=sectcol!100!black] \tzrarrow
+ \end{tikzpicture}
+}
+
+
+
+%----------------------------------------------------------------------------------------
+%	custom sections
+%----------------------------------------------------------------------------------------
+
+% create a coloured box with arrow and title as cv section headline
+% param 1: section title
+%
+\newcommand{\cvsection}[1]
+{
+\colorbox{sectcol}{\mystrut \makebox[1\linewidth][l]{
+\larrow{bgcol} \hspace{-8pt} \larrow{bgcol} \hspace{-8pt} \larrow{bgcol} \textcolor{white}{\textbf{#1}}\hspace{4pt}
+}}\\
+}
+
+%create a coloured arrow with title as cv meta section section
+% param 1: meta section title
+%
+\newcommand{\metasection}[3]
+{
+\begin{tabular*}{1\textwidth}{p{#1} p{11cm}}
+\larrow{bgcol}	\normalsize{\textcolor{sectcol}{#2}}&#3\\[12pt]
+\end{tabular*}
+}
+
+%----------------------------------------------------------------------------------------
+%	 CV EVENT
+%----------------------------------------------------------------------------------------
+
+% creates a stretched box as cv entry headline followed by two paragraphs about 
+% the work you did
+% param 1:	event time i.e. 2014 or 2011-2014 etc.
+% param 2:	event name (what did you do?)
+% param 3:	institution (where did you work / study)
+% param 4:	what was your position
+% param 5:	some words about your contributions
+%
+\newcommand{\cveventOne}[4]
+{
+\vspace{8pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm}  p{9.8cm} x{4.9cm}}
+ \textcolor{bgcol}{#1}& \textbf{#2} & \vspace{2.5pt}\textcolor{sectcol}{#3}
+
+	\end{tabular*}
+\vspace{-12pt}
+\textcolor{softcol}{\hrule}
+\vspace{6pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm} p{14.4cm}}
+&		 \larrow{bgcol}  #4\\[3pt]
+	\end{tabular*}
+
+}
+\newcommand{\cveventTwo}[6]
+{
+\vspace{8pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm}  p{9.8cm} x{4.9cm}}
+ \textcolor{bgcol}{#2}& \textbf{#3} & \vspace{2.5pt}\textcolor{sectcol}{#4}
+
+	\end{tabular*}
+\vspace{#1}
+\textcolor{softcol}{\hrule}
+\vspace{6pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm} p{14.4cm}}
+&		 \larrow{bgcol}  #5\\[3pt]
+&		 \larrow{bgcol}  #6\\[6pt]
+	\end{tabular*}
+
+}
+\newcommand{\cveventThree}[6]
+{
+\vspace{8pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm}  p{9.8cm} x{4.9cm}}
+ \textcolor{bgcol}{#1}& \textbf{#2} & \vspace{2.5pt}\textcolor{sectcol}{#3}
+
+	\end{tabular*}
+\vspace{0pt}
+\textcolor{softcol}{\hrule}
+\vspace{6pt}
+	\begin{tabular*}{1\textwidth}{p{2.3cm} p{14.4cm}}
+&		 \larrow{bgcol}  #4\\[3pt]
+&		 \larrow{bgcol}  #5\\[6pt]
+&        \larrow{bgcol}  #6\\[9pt]
+	\end{tabular*}
+
+}
+
+% creates a stretched box as 
+\newcommand{\cveventmeta}[2]
+{
+	\mbox{\mystrut \hspace{87pt}\textit{#1}}\\
+	#2
+}
+
+%----------------------------------------------------------------------------------------
+% CUSTOM STRUT FOR EMPTY BOXES
+%----------------------------------------- -----------------------------------------------
+\newcommand{\mystrut}{\rule[-.3\baselineskip]{0pt}{\baselineskip}}
+
+%----------------------------------------------------------------------------------------
+% CUSTOM LOREM IPSUM
+%----------------------------------------------------------------------------------------
+\newcommand{\lorem}
+{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.}
+
+
+
+%============================================================================%
+%
+%
+%
+%	DOCUMENT CONTENT
+%
+%
+%
+%============================================================================%
+\begin{document}
+
+
+%use our custom fancy header definitions
+\pagestyle{fancy}	
+
+
+%---------------------------------------------------------------------------------------
+%	TITLE HEADLINE
+%----------------------------------------------------------------------------------------
+\vspace{-20.55pt}
+
+% use this for multiple words like working titles etc.
+%\hspace{-0.25\linewidth}\colorbox{bgcol}{\makebox[1.5\linewidth][c]{\hspace{46pt}\HUGE{\textcolor{white}{\textsc{Jan Küster}} } \textcolor{sectcol}{\rule[-1mm]{1mm}{0.9cm}} \parbox[b]{5cm}{   \large{ \textcolor{white}{{IT Consultant}}}\\
+% \large{ \textcolor{white}{{Resume}}}}
+%}}
+
+% use this for single words, e.g. CV or RESUME etc.
+\hspace{-0.25\linewidth}\colorbox{bgcol}{\makebox[1.5\linewidth][c]{\HUGE{\textcolor{white}{\textsc{Martin Nicholas Lagas}} } \textcolor{sectcol}{\rule[-1mm]{1mm}{0.9cm}} \HUGE{\textcolor{white}{\textsc{CV}} } }}
+
+
+%----------------------------------------------------------------------------------------
+%	HEADER IMAGE
+%----------------------------------------------------------------------------------------
+
+%\begin{figure}[H]
+%\begin{flushright}
+%	\includegraphics[trim= 320 130 460 210,clip,width=0.2\linewidth]{myfoto.jpg}	%trimming relative to image size!
+%\end{flushright}
+%\end{figure}
+
+%---------------------------------------------------------------------------------------
+%	QR CODE (optional)
+%----------------------------------------------------------------------------------------
+%\vspace{-136pt}
+\vspace{20pt}
+\hspace{.77\linewidth}
+\includegraphics[width=103pt]{portfolio.png}
+\normalsize
+\vspace{88pt}
+
+%---------------------------------------------------------------------------------------
+%	META SECTION
+%----------------------------------------------------------------------------------------
+
+\vspace{-194pt}
+
+\metasection{3.4cm}{Status}{Student at University of Verona, Gamedev Programmer}
+\metasection{3.4cm}{Address}{Via Dei Marsari 17, 30036 Santa Maria di Sala (VE), Italy}
+\metasection{3.4cm}{Date of birth}{19/05/1996}
+\metasection{3.4cm}{Driver's license}{Yes (Class B)}
+\metasection{3.4cm}{Links}{\href{https://github.com/nicex000}{GitHub} - \href{https://gitlab.com/nicex000}{GitLab} - \href{https://nicex000.github.io}{Portfolio} - \href{https://www.linkedin.com/in/martin-lagas-06692a164/}{LinkedIn}}
+
+\vspace{6pt}
+
+%---------------------------------------------------------------------------------------
+%	SUMMARAY (optional)
+%----------------------------------------------------------------------------------------
+
+\cvsection{Summary}\\
+Gamedev Programmer graduate (B.Sc.) with project experience in both Unreal and Unity. 
+
+Looking for a position in the Gamedev industry.
+
+Currently enrolled in Masters course at University of Verona, focusing on Game Programming and C++.\\[-2pt]
+
+%============================================================================%
+%
+%	CV SECTIONS AND EVENTS (MAIN CONTENT)
+%
+%============================================================================%
+
+%---------------------------------------------------------------------------------------
+%	EXPERIENCE
+%----------------------------------------------------------------------------------------
+\cvsection{Experience}
+
+%
+\cveventThree{Mar 2021 -\newline Dec 2021}
+{IT Consultant for Reply Italy}
+{ITCube Consulting}
+{Realize and maintain projects for various teams, using C\# with Microsoft CRM}
+{Designed and implemented a mailing list reccomendation algorithm for housing offers, expanded backend and frontend for italy's biggest insurance group}
+{Also developed a VR project directly with the CEO of ITCube, used to determine the dominant eye}
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{0pt}{Dec 2019 -\newline Sept 2020}
+{Typescript Frontend Programmer}
+{BK Solutions}
+{Created a full CRM system for their backend using Angular 7 for typescript}
+{Configured and upgraded all existing Ionic projects to work on iOS,
+ \newline set up the Apple developer environment and app pages}
+
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{0pt}{Sept 2018 -\newline Jan 2019}
+{Internship at Apollo Journey}
+{Apollo Journey}
+{Create new and modify existing VR projects for clients or events}
+{Created a VR toolkit in Unity and Unreal (BP \& C++) to help with VR development}
+
+
+
+%---------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%--------------------------------------------------------------------------------------
+\cvsection{Education}
+
+\cveventOne{2021 - present}
+{Master in Computer Game Development}
+{University of Verona, Italy}
+{1st level Master's degree}
+\vspace{12pt}
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2015 - 2019}
+{Bachelor degree in Creative Media and Game Technologies}
+{Breda University of Applied Science (formerly NHTV), Breda, Netherlands}
+{Bachelor's degree of Science}
+
+\vspace{12pt}
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2010 - 2015}
+{Diploma di Scuola Secondaria di Secondo Grado}
+{I.I.S. Levi-Ponti, Mirano (VE), Italy}
+{High School Diploma}
+
+%---------------------------------------------------------------------------------------
+%	PERSONAL PROJECTS
+%----------------------------------------------------------------------------------------
+\pagebreak
+\cvsection{Personal Projects}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{-12pt}{2022}
+{Res Cogitans}
+{\href{https://github.com/Monkuality-GGJ22/Res-cogitans}{GitHub Repo} - \href{https://batraf.itch.io/res-cogitans}{itch.io}}
+{Game Jam: Global Game Jam 2022 - Developed in Unity}
+{Implemented soul logic, base interactable systems, various interactables, \newline designed Level 4}
+
+%
+\cveventTwo{-12pt}{2020 - 2021}
+{Shimakaze Bot}
+{\href{https://github.com/nicex000/ShimakazeBot}{GitHub Repo}}
+{Discord bot written in C\# using DSharpPlus, DB with PostgreSQL}
+{Commands ranging from querying an online API to setting a reminder, music playback using ffmpeg and Lavalink}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{-12pt}{2018}
+{Fintastic Escape}
+{\href{https://github.com/UglyApple-LD41/LD_2018_UglyApple}{GitHub Repo} - \href{https://imdivingdeep.itch.io/fintastic-escape}{itch.io}}
+{Game Jam: Ludum Dare 41 - Developed in Unreal}
+{Implemented player movement, interaction, fish AI + fishing, \newline audio with audacity, other small things}
+
+%---------------------------------------------------------------------------------------
+%	UNIVERSITY PROJECTS
+%----------------------------------------------------------------------------------------
+\cvsection{University Projects}
+
+%
+\cveventTwo{-12pt}{2022}
+{Of Planets And Guns}
+{\href{https://gitlab.com/bug-society/of-planets-and-guns}{GitLab Repo} - University of Verona}
+{University team game project in Unreal}
+{Implemented level generation system, various other gameplay elements, \newline player and gun logic}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{-12pt}{2018}
+{The Survivors}
+{\href{https://store.steampowered.com/app/746070/The_Survivors/}{Steam Store} - NHTV}
+{University team game project in Unreal (Blueprints) with an external client}
+{Implemented enemy AI and battle royale multi elimination circle system}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{-12pt}{2017-2018}
+{Rabbids Hotel Mania}
+{NHTV}
+{Team VR game project in Unreal with an external client: Ubisoft}
+{Educational project with Ubisoft, Implemented VR interaction and Rabbids AI}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventTwo{-12pt}{2017}
+{Tumble Tree Tournament}
+{NHTV}
+{Team game project in Unity with an external client: bitcraft Co.ltd (Japan)}
+{Multiplayer implementation of player movement and hazards}
+
+%---------------------------------------------------------------------------------------
+%	SCHOOL PROJECTS
+%----------------------------------------------------------------------------------------
+\cvsection{High School Projects and Courses}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2014}
+{Alternanza scuola lavoro}
+{I.I.S. Levi Ponti - GSI Group s.r.l}
+{High school stage in an electric installation company}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2013 \& 2014}
+{Museum Easy for Us}
+{Scuola Superiore Mediatori Linguistici di Vicenza}
+{English translations for a linguistic university}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2012 - 2014}
+{Solar One}
+{I.I.S. Levi Ponti - ISOV Meslek Lisesi}
+{Comenius project with travel to Istanbul during the 7th robotics competition in 2013}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2012 - 2013}
+{Cisco CCNA 1}
+{I.I.S. Levi Ponti}
+{Cisco course with acquired certificate}
+
+%\textcolor{softcol}{\hrule}
+
+%
+\cveventOne{2012}
+{Aushwitz Fra storia e memoria}
+{I.I.S. Levi Ponti}
+{Expressive picture contest winner, picture taken on-site}
+
+%---------------------------------------------------------------------------------------
+%	SKILLS
+%----------------------------------------------------------------------------------------
+\cvsection{Skills}
+
+\metasection{4.4cm}{Game Engines}{\textbf{Advanced:} Unreal (C++ \& Blueprints) and Unity
+
+\textbf{Intermediate:} Custom Game engine, Custom Physics engine}
+\vspace{6pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+\metasection{4.4cm}{Gamedev}{\textbf{Advanced:} Gameplay, AI
+
+\textbf{Intermediate:} VR, Networking}
+
+\vspace{-6pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Programming Languages}{\textbf{Advanced:} C++, C\#
+
+\textbf{Intermediate:} TypeScript, JavaScript, HTML/CSS, and others}
+
+\vspace{-6pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Source Control}{Perforce, Git, DevOPS}
+
+\vspace{-18pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Team skills}{Agile, Scrum}
+
+\vspace{-18pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Other skills}{\textbf{Intermediate:} Microsoft Dynamics 365, Cisco Packet Tracker}
+
+%---------------------------------------------------------------------------------------
+%	LANGUAGES
+%----------------------------------------------------------------------------------------
+\cvsection{Languages}
+
+\metasection{4.4cm}{English}{Mother tongue}
+
+\vspace{-18pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Italian}{Complete fluency in speaking, reading and writing}
+
+%---------------------------------------------------------------------------------------
+%	PERSONAL INTERESTS AND HOBBIES
+%----------------------------------------------------------------------------------------
+\cvsection{Personal Interests and Hobbies}
+
+\metasection{4.4cm}{PC Gaming}{MMORPGs, Open World RPGs, JRPGs, Visual Novels, 
+\newline Cooperative Games, Team-based Online Games}
+
+\vspace{-6pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Sport activities}{Agility dog training, skiing, Aikido}
+
+\vspace{-18pt}
+\textcolor{softcol}{\hrule}
+\vspace{9pt}
+
+\metasection{4.4cm}{Travel and tourism}{Interested in ancient architecture and landmark sites}
+
+%-------------------------------------------------------------------------------------------------
+%	ARTIFICIAL FOOTER (fancy footer cannot exceed linewidth) 
+%--------------------------------------------------------------------------------------------------
+
+\null
+\vspace*{\fill}
+\hspace{-0.09\linewidth}
+\colorbox{bgcol}{\parbox[t][1.25cm]{1.16\linewidth}{\mystrut \centering \scriptsize \textcolor{white}{
+	I hereby give consent for my personal data included in the application to be processed for 
+	the purposes of the recruitment process in accordance with Art. 6 paragraph 1 letter a of 
+	the Regulation of the European Parliament and of the Council (EU) 2016/679 of 27 April 2016 
+	on the protection of natural persons with regard to the processing of personal data and 
+	on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation).
+	}}}
+
+
+
+%============================================================================%
+%
+%
+%
+%	DOCUMENT END
+%
+%
+%
+%============================================================================%
+\end{document}
